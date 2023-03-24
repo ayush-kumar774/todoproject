@@ -39,4 +39,25 @@ public class CourseService {
     public List<Course> getCourseForUser(String username) {
         return courseRepository.findAllByUsername(username);
     }
+
+    // PUT
+
+    public Course updateCourse(Course course) {
+        System.out.println("updates");
+        Course existing_course = courseRepository.findById(course.getId()).orElse(null);
+        existing_course.setName(course.getName());
+        existing_course.setDescription(course.getDescription());
+        existing_course.setStatus(course.getStatus());
+        return courseRepository.save(existing_course);
+    }
+
+    // DELETE
+    public String deleteCourse(int id) {
+        Course course = courseRepository.findById(id).orElse(null);
+        if (course == null) {
+            return "There is no such course.";
+        }
+        courseRepository.deleteById(id);
+        return id + " id -> " + course + " removed/completed.";
+    }
 }
